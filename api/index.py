@@ -9,6 +9,8 @@ def get_info(url: str):
     if not url:
         raise HTTPException(status_code=400, detail="URL is required")
     
+    cookie_path = os.path.join(os.path.dirname(__file__), 'cookies.txt')
+    
     ydl_opts = {
         'quiet': True,
         'no_warnings': True,
@@ -26,6 +28,9 @@ def get_info(url: str):
             }
         }
     }
+
+    if os.path.exists(cookie_path):
+        ydl_opts['cookiefile'] = cookie_path
     
     try:
         with YoutubeDL(ydl_opts) as ydl:
