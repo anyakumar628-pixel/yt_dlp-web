@@ -23,19 +23,9 @@ def get_info(url: str):
     ydl_opts = {
         'quiet': True,
         'no_warnings': True,
-        'format': 'best',
         'nocheckcertificate': True,
         'ignoreerrors': False,
         'logtostderr': False,
-        'add_header': [
-            'Accept-Language: en-US,en;q=0.9',
-            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        ],
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['ios', 'android', 'web']
-            }
-        }
     }
 
     if os.path.exists(cookie_path):
