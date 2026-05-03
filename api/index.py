@@ -23,22 +23,17 @@ def get_info(url: str):
         'quiet': True,
         'no_warnings': True,
         'nocheckcertificate': True,
-        'ignoreerrors': True,
+        'ignoreerrors': False,
         'logtostderr': False,
-        'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Sec-Fetch-Mode': 'navigate',
-        }
+        'cookiefile': cookie_path if os.path.exists(cookie_path) else None,
     }
-
-    if os.path.exists(cookie_path):
-        ydl_opts['cookiefile'] = cookie_path
     
     try:
         with YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
+            
+            if not info:
+                raise HTTPException(status_code=400, detail="YouTube is blocking this request even with cookies. Try a different video or wait a while.")
             
             # Filter and sanitize formats
             formats = []
