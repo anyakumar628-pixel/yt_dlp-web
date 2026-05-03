@@ -10,7 +10,16 @@ def get_info(url: str):
         raise HTTPException(status_code=400, detail="URL is required")
     
     cookie_path = os.path.join(os.path.dirname(__file__), 'cookies.txt')
+    temp_cookie_path = "/tmp/cookies.txt"
     
+    if os.path.exists(cookie_path):
+        try:
+            import shutil
+            shutil.copy2(cookie_path, temp_cookie_path)
+            cookie_path = temp_cookie_path
+        except Exception:
+            pass
+
     ydl_opts = {
         'quiet': True,
         'no_warnings': True,
