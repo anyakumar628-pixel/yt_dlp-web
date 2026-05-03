@@ -8,7 +8,6 @@ app = FastAPI()
 def get_info(url: str):
     if not url:
         raise HTTPException(status_code=400, detail="URL is required")
-    
     cookie_path = os.path.join(os.path.dirname(__file__), 'cookies.txt')
     temp_cookie_path = "/tmp/cookies.txt"
     
@@ -24,8 +23,14 @@ def get_info(url: str):
         'quiet': True,
         'no_warnings': True,
         'nocheckcertificate': True,
-        'ignoreerrors': False,
+        'ignoreerrors': True,
         'logtostderr': False,
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Sec-Fetch-Mode': 'navigate',
+        }
     }
 
     if os.path.exists(cookie_path):
